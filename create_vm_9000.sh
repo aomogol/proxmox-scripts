@@ -27,8 +27,11 @@ else
 fi
 
 virt-customize -a jammy-server-cloudimg-amd64.img --install qemu-guest-agent
-virt-customize -a jammy-server-cloudimg-amd64.img --run-command "useradd -m -s /bin/bash ubuntu"
-virt-customize -a jammy-server-cloudimg-amd64.img --root-password password:ubuntu
+virt-customize -a jammy-server-cloudimg-amd64.img --install neofetch
+virt-customize -a jammy-server-cloudimg-amd64.img --install bash-completion
+#virt-customize -a jammy-server-cloudimg-amd64.img --install 
+virt-customize -a jammy-server-cloudimg-amd64.img --run-command "useradd -m -s /bin/bash aom"
+virt-customize -a jammy-server-cloudimg-amd64.img --root-password password:aom
 # virt-customize -a jammy-server-cloudimg-amd64.img --ssh-inject ubuntu:file:/root/ansible_ssh_key.txt
 qm create 9000 --memory 2048 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-pci
 qm set 9000 --scsi0 local-lvm:0,import-from=/root/jammy-server-cloudimg-amd64.img

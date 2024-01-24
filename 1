@@ -1,0 +1,29 @@
+#!/bin/bash
+vmid = '8003'
+storeat = 'local'
+cloudimigeurl = 'https://cloud-images.ubuntu.com/mantic/current/mantic-server-cloudimg-amd64.img'
+imagename = 'mantic-server-cloudimg-amd64.img'
+# installing libguestfs-tools only required once, prior to first run
+# apt update -y
+# apt install libguestfs-tools -y
+
+# remove existing image in case last execution did not complete successfully
+#rm mantic-server-cloudimg-amd64.img
+#wget https://cloud-images.ubuntu.com/focal/current/mantic-server-cloudimg-amd64.img
+## ubuntu 23.10
+
+
+wget ${cloudimigeurl}
+
+ virt-customize -a ${imagename} --install qemu-guest-agent
+ qm create ${vmid} --name "ubuntu-2310-cloudinit-template" --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
+ qm importdisk ${vmid} ${imagename} ${storeat}
+ qm set ${vmid} --scsihw virtio-scsi-pci --scsi0 ${storeat}:vm-$vmid-disk-0
+ qm set ${vmid} --boot c --bootdisk scsi0
+ qm set ${vmid} --ide2 $storeat:cloudinit
+ qm set ${vmid} --serial0 socket --vga serial0
+ qm set ${vmid} --agent enabled=1
+ qm template $vmid}
+#rm $imagename
+echo "next up, clone VM, then expand the disk"
+echo "you also still need to copy ssh keys to the newly cloned VM"
