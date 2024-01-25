@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #sudo virt-customize -a focal-server-cloudimg-amd64.img --install qemu-guest-agent
 
 # not quite working yet. skip this and continue
@@ -63,3 +65,6 @@ remove_img
 }
 
 main
+
+# Ubuntu Server 24.04 LTS (Noble Numbat) daily builds
+# https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img

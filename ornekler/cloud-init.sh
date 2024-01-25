@@ -18,6 +18,9 @@ virt-customize -a mantic-server-cloudimg-amd64.img --root-password password:aom
 
  qm create 8003 --name "ubuntu-2310-cloudinit-template" --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
  qm importdisk 8003 mantic-server-cloudimg-amd64.img local
+
+qm set 8003 --scsi0 local:0,import-from=/root/download/mantic-server-cloudimg-amd64.img
+
  qm set 8003 --scsihw virtio-scsi-pci --scsi0 local:vm-8003-disk-0
  qm set 8003 --boot c --bootdisk scsi0
  qm set 8003 --ide2 local:cloudinit
@@ -27,3 +30,6 @@ virt-customize -a mantic-server-cloudimg-amd64.img --root-password password:aom
 #rm mantic-server-cloudimg-amd64.img
 echo "next up, clone VM, then expand the disk"
 echo "you also still need to copy ssh keys to the newly cloned VM"
+
+
+
