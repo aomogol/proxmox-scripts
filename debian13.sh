@@ -66,7 +66,7 @@ export storage=local
 # wget "https://cloud.debian.org/images/cloud/trixie/daily/latest/debian-13-genericcloud-amd64-daily.qcow2"   
 
 
-imagefile=/root/download/debian-12-genericcloud-amd64.qcow2
+imagefile=/root/download/debian-13-genericcloud-amd64-daily.qcow2
 if test -f "$imagefile"; then
      echo "found img file skipping download..."
      
