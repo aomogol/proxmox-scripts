@@ -35,6 +35,8 @@ function create_template() {
     echo "Creating template $VM_NAME  ($VM_ID)"
     echo "#Create new VM "
         qm create $VM_ID --name $VM_NAME --ostype $VM_OS_TYPE 
+#        qm create ${TEMPLATE_ID} --name "${TEMPLATE_IMAGE}-$(date +%Y%M%d)" --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0
+
         #--description "Ubuntu Server 23.10 LTS (Mantic) "
     
     echo "#Set networking to default bridge"
@@ -54,7 +56,7 @@ function create_template() {
         qm set $VM_ID --boot order=scsi0 --scsihw virtio-scsi-single
     
     echo "#Enable Qemu guest agent in case the guest has it available"
-       qm set $VM_ID --agent enabled=1,fstrim_cloned_disks=1
+        qm set $VM_ID --agent enabled=1,fstrim_cloned_disks=1
     
     echo "#Add cloud-init device"
         qm set $VM_ID --ide2 $STORAGE_POOL:cloudinit
@@ -91,16 +93,16 @@ function create_template() {
 imagefile=/root/download/$VM_OS_CLOUD_INIT_ISO_FILE
 
 if test -f "$imagefile"; then
-     echo "found img file skipping download..."
+    echo "found img file skipping download..."
 else
-     echo "downloading img file..."
-     cd /root/download
-     wget $VM_OS_CLOUD_INIT_ISO_URL
+    echo "downloading img file..."
+    cd /root/download
+    wget $VM_OS_CLOUD_INIT_ISO_URL
 fi
 
 # Install apps on Ubuntu image.
 
- ###      --firstboot-install PKG,PKG..
+    ###      --firstboot-install PKG,PKG..
 
 virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --install qemu-guest-agent,neofetch,git,bash-completion
 # Enable password authentication in the template. Obviously, not recommended for except for testing.
