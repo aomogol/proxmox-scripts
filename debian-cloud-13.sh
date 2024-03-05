@@ -97,14 +97,18 @@ else
     wget $VM_OS_CLOUD_INIT_ISO_URL
 fi
 
-# Install apps on Ubuntu image.
-
-    ###      --firstboot-install PKG,PKG..
+# Install apps on image.
+#virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --firstboot-command 'localectl set-keymap tr'
+#virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --firstboot-install qemu-guest-agent,neofetch,git,bash-completion
 
 virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --install qemu-guest-agent,neofetch,git,bash-completion
+virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --run-command 'systemctl enable qemu-guest-agent'
+virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --run-command 'systemctl disable qemu-guest-agent'
+
 # Enable password authentication in the template. Obviously, not recommended for except for testing.
 virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --run-command "sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config"
 virt-customize -a $VM_OS_CLOUD_INIT_ISO_FILE --run-command "sed -i 's/.*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config.d/60-cloudimg-settings.conf"
+
 
 create_template $VM_ID $VM_NAME $VM_OS_CLOUD_INIT_ISO_FILE
 

@@ -49,3 +49,7 @@ The following links/tutorials were used to help develop this example.
 [https://pawa.lt/posts/2019/07/automating-k3s-deployment-on-proxmox/]
 
 [https://forum.proxmox.com/threads/installing-virt-customize-ok.78572/]
+
+## Kontrol edilecekler
+
+virt-builder xxxxx --firstboot-command 'localectl set-keymap uk'
