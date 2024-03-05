@@ -14,4 +14,4 @@ lvresize -l +100%FREE /dev/pve/root
 resize2fs /dev/mapper/pve-root
 
 #işlem tamamlandıktan sonra  tekrar kontrol 
- lsblk
+lsblk
